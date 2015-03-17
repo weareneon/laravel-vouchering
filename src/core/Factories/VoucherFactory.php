@@ -1,7 +1,7 @@
 <?php namespace Fastwebmedia\LaravelVouchering\core\Factories;
 
 use \Fastwebmedia\LaravelVouchering\models\Voucher;
-use \Fastwebmedia\LaravelVouchering\models\Campaign;
+use \Fastwebmedia\LaravelVouchering\core\Factories\CampaignFactory as Campaign;
 
 class VoucherFactory
 {
@@ -36,7 +36,7 @@ class VoucherFactory
     public function createVoucher($campaignUrn)
     {
         // Check for valid campaign
-        if ($campaign = $this->campaign->getByUrn($campaignUrn)):
+        if ($campaign = $this->campaign->getCampaign($campaignUrn)):
 
             $voucher = $this->voucher->create([
                 'campaign_id' => $campaign->id,

@@ -17,10 +17,12 @@ class CreateVoucherCampaignsTable extends Migration {
             $table->timestamps();
             $table->string('name');
             $table->string('brand');
-            $table->string('urn');
+            $table->string('urn')->unique();
             $table->dateTime('starts_at');
             $table->dateTime('ends_at');
             $table->boolean('is_active')->default('1');
+
+            $table->index('urn');
         });
 	}
 

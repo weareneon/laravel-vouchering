@@ -17,6 +17,7 @@
         "classmap": [
             "src/migrations",
             "src/models",
+            "src/commands",
             "src/core/Factories",
             "src/core/Repositories",
             "src/Facades"

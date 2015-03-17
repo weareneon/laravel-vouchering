@@ -39,6 +39,13 @@ class LaravelVoucheringServiceProvider extends ServiceProvider {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('Voucher', 'Fastwebmedia\LaravelVouchering\Facades\LaravelVouchering');
         });
+
+        $this->app['command.package.command'] = $this->app->share(function($app)
+        {
+            return new \CampaignCreate($app['voucher']);
+        });
+
+        $this->commands('command.package.command');
 	}
 
 	/**
