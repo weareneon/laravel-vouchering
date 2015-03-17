@@ -12,7 +12,7 @@ class VoucherFactory
     protected $model;
 
     /**
-     * @var Campaign
+     * @var CampaignRepository
      */
     protected $campaignRepo;
 
