@@ -8,7 +8,7 @@ class CampaignFactory
     /**
      * @var Campaign
      */
-    protected $campaign;
+    protected $model;
 
     /**
      * @var CampaignRepository

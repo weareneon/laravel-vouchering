@@ -9,7 +9,7 @@ class VoucherFactory
     /**
      * @var Voucher
      */
-    protected $voucher;
+    protected $model;
 
     /**
      * @var Campaign
@@ -20,7 +20,7 @@ class VoucherFactory
      * Constructs models
      */
     public function __construct() {
-        $this->voucher = New Voucher;
+        $this->model = New Voucher;
         $this->campaignRepo = New CampaignRepository;
     }
 
@@ -38,9 +38,9 @@ class VoucherFactory
         // Check for valid campaign
         if ($campaign = $this->campaignRepo->getCampaign($campaignUrn)):
 
-            $voucher = $this->voucher->create([
+            $voucher = $this->model->create([
                 'campaign_id' => $campaign->id,
-                'hash' => $this->voucher->generateHash(),
+                'hash' => $this->model->generateHash(),
             ]);
 
             return $voucher;
