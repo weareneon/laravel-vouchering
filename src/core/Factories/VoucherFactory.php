@@ -14,7 +14,7 @@ class VoucherFactory
     /**
      * @var Campaign
      */
-    protected $campaign;
+    protected $campaignRepo;
 
     /**
      * Constructs models
