@@ -1,17 +1,10 @@
 <?php namespace Fastwebmedia\LaravelVouchering\core\Factories;
 
-use \Fastwebmedia\LaravelVouchering\models\Voucher;
 use \Fastwebmedia\LaravelVouchering\models\Campaign;
 use \Fastwebmedia\LaravelVouchering\core\Repositories\CampaignRepository;
 
 class CampaignFactory
 {
-
-    /**
-     * @var Voucher
-     */
-    protected $voucher;
-
     /**
      * @var Campaign
      */
@@ -28,17 +21,16 @@ class CampaignFactory
     public function __construct() {
         $this->model = New Campaign;
         $this->repo = New CampaignRepository;
-        $this->voucher = New Voucher;
     }
 
     /**
-     * createVoucher function.
+     * createCampaign function.
      *
      * @access public
      *
      * @param string $campaignUrn
      *
-     * @return Voucher
+     * @return Campaign
      */
     public function createCampaign($data)
     {
