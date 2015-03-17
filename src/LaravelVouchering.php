@@ -1,23 +1,23 @@
 <?php namespace Fastwebmedia\LaravelVouchering;
 
-use \Fastwebmedia\LaravelVouchering\core\Factories\VoucherFactory as Factory;
-use \Fastwebmedia\LaravelVouchering\core\Repositories\VoucherRepository as Repository;
+use \Fastwebmedia\LaravelVouchering\core\Factories\VoucherFactory;
+use \Fastwebmedia\LaravelVouchering\core\Repositories\VoucherRepository;
 
 class LaravelVouchering {
 
     /**
-     * @var Factory
+     * @var VoucherFactory
      */
     protected $factory;
 
     /**
-     * @var Repository
+     * @var VoucherRepository
      */
     protected $repo;
 
     public function __construct() {
-        $this->factory = New Factory;
-        $this->repo = New Repository;
+        $this->factory = New VoucherFactory;
+        $this->repo = New VoucherRepository;
     }
 
     // created voucher for specified campaign (urn)
