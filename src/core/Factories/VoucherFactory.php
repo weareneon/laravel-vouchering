@@ -1,0 +1,71 @@
+<?php namespace Fastwebmedia\LaravelVouchering\core\Factories;
+
+use \Fastwebmedia\LaravelVouchering\models\Voucher;
+use \Fastwebmedia\LaravelVouchering\models\Campaign;
+
+class VoucherFactory
+{
+
+    /**
+     * @var Voucher
+     */
+    protected $voucher;
+
+    /**
+     * @var Campaign
+     */
+    protected $campaign;
+
+    /**
+     * Constructs models
+     */
+    public function __construct() {
+        $this->voucher = New Voucher;
+        $this->campaign = New Campaign;
+    }
+
+    /**
+     * createVoucher function.
+     *
+     * @access public
+     *
+     * @param string $campaignUrn
+     *
+     * @return Voucher
+     */
+    public function createVoucher($campaignUrn)
+    {
+        // Check for valid campaign
+        if ($campaign = $this->campaign->getByUrn($campaignUrn)):
+
+            $voucher = $this->voucher->create([
+                'campaign_id' => $campaign->id,
+                'hash' => $this->voucher->generateHash(),
+            ]);
+
+            return $voucher;
+        endif;
+
+        return false;
+    }
+
+    /**
+     * destroyVoucher function.
+     *
+     * @access public
+     *
+     * @param string $hash
+     *
+     * @return Voucher
+     */
+    public function destroyVoucher($hash)
+    {
+        if ($voucher = $this->model->where('hash', '=', $hash)->first()):
+            if ($voucher->delete()):
+                return $voucher;
+            endif;
+        endif;
+
+        return false;
+    }
+}
