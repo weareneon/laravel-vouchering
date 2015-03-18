@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Database\Capsule\Manager as DB;
-use Fastwebmedia\LaravelVouchering\Factories\CampaignFactory;
 use Fastwebmedia\LaravelVouchering\Models\Campaign;
-use Fastwebmedia\LaravelVouchering\Repositories\CampaignRepository;
 
-class CampaignFactoryTest extends AbstractFWMTestCase
+class CampaignFactoryTest extends BaseVoucherTest
 {
     public static function setupBeforeClass()
     {
@@ -69,13 +67,5 @@ class CampaignFactoryTest extends AbstractFWMTestCase
         $campaign = $factory->createCampaign($data);
 
         $this->assertFalse($campaign);
-    }
-
-    /**
-     * @return ContentRepository
-     */
-    protected function getCampaignFactory()
-    {
-        return new CampaignFactory(new Campaign, new CampaignRepository(new Campaign));
     }
 }
