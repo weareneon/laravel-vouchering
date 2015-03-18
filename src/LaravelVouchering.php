@@ -1,7 +1,7 @@
 <?php namespace Fastwebmedia\LaravelVouchering;
 
-use \Fastwebmedia\LaravelVouchering\core\Factories\VoucherFactory;
-use \Fastwebmedia\LaravelVouchering\core\Repositories\VoucherRepository;
+use \Fastwebmedia\LaravelVouchering\Factories\VoucherFactory;
+use \Fastwebmedia\LaravelVouchering\Repositories\VoucherRepository;
 
 class LaravelVouchering {
 
@@ -15,9 +15,9 @@ class LaravelVouchering {
      */
     protected $repo;
 
-    public function __construct() {
-        $this->factory = New VoucherFactory;
-        $this->repo = New VoucherRepository;
+    public function __construct(VoucherFactory $factory, VoucherRepository $repository) {
+        $this->factory = $factory;
+        $this->repository = $repository;
     }
 
     // created voucher for specified campaign (urn)
@@ -32,17 +32,22 @@ class LaravelVouchering {
 
     // loads voucher by hash
     public function loadVoucher($hash){
-        return $this->repo->loadVoucher($hash);
+        return $this->repository->loadVoucher($hash);
     }
 
     // expires voucher by hash
     public function expireVoucher($hash){
-        return $this->repo->expireVocuher($hash);
+        return $this->repository->expireVocuher($hash);
     }
 
     // redeems voucher by hash
     public function redeemVoucher($hash){
-        return $this->repo->redeemVoucher($hash);
+        return $this->repository->redeemVoucher($hash);
+    }
+
+    // checks voucher expiry status
+    public function checkExpiry($date, $days){
+        return $this->repository->checkExpiry($date, $days);
     }
 
 }
