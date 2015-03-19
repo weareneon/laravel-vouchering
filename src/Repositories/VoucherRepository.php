@@ -20,7 +20,7 @@ class VoucherRepository
     }
 
     /**
-     * getVoucher function.
+     * loadVoucher function.
      *
      * @access public
      *
@@ -28,9 +28,15 @@ class VoucherRepository
      *
      * @return Voucher
      */
-    public function getVoucher($hash)
+    public function loadVoucher($hash)
     {
-        return $this->model->where('hash', '=', $hash)->first();
+        $voucher = $this->model->where('hash', '=', $hash)->first();
+
+        if ( $voucher ){
+            return $voucher;
+        }
+
+        return false;
     }
 
     /**
@@ -74,27 +80,6 @@ class VoucherRepository
             if ($voucher->save()) {
                 return $voucher;
             }
-        }
-
-        return false;
-    }
-
-    /**
-     * checkExpiry function.
-     *
-     * @access public
-     *
-     * @param date $date
-     * @param int  $days
-     *
-     * @return boolean
-     */
-    public function checkExpiry($date, $days)
-    {
-        $expiry_date = date('Y-m-d H:i:s', strtotime($date.' + '.$days.' days'));
-
-        if (date('Y-m-d H:i:s') > $expiry_date) {
-            return true;
         }
 
         return false;

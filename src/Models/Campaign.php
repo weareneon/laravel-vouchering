@@ -16,6 +16,6 @@ class Campaign extends Model
 
     public function vouchers()
     {
-        return $this->hasMany('Vouchers\Voucher', 'entry_id', 'id');
+        return $this->hasMany('Fastwebmedia\LaravelVouchering\Models\Voucher', 'entry_id', 'id');
     }
 }

@@ -18,8 +18,7 @@ class CreateVoucherCampaignsTable extends Migration {
             $table->string('name');
             $table->string('brand');
             $table->string('urn')->unique();
-            $table->dateTime('starts_at');
-            $table->dateTime('ends_at');
+            $table->integer('expiry_limit')->default('14');
             $table->boolean('is_active')->default('1');
 
             $table->index('urn');

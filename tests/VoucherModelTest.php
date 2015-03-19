@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Capsule\Manager as DB;
+use Fastwebmedia\LaravelVouchering\Models\Voucher;
 
-class VoucherFactoryTest extends BaseVoucherTest
+class VoucherModelTest extends BaseVoucherTest
 {
     public static function setupBeforeClass()
     {
@@ -37,38 +38,44 @@ class VoucherFactoryTest extends BaseVoucherTest
 
         parent::setupBeforeClass();
         static::$fm->seed(5, 'Fastwebmedia\LaravelVouchering\Models\Campaign');
-        static::$fm->seed(5, 'Fastwebmedia\LaravelVouchering\Models\Voucher');
     }
 
     /** @test **/
-        public function itCanCreateVoucher()
+    public function itCanGetDefaultCampaignExpiryDate()
     {
-        $campaignFactory = $this->getCampaignFactory();
+        $repo = $this->getVoucherRepository();
 
-        $testData = [
-            'name' => 'Test Campaign',
-            'brand' => 'Test Brand',
-            'urn' => '11002',
-            'is_active' => 1
-        ];
+        Voucher::create([
+            'hash' => 'voucher001',
+            'campaign_id' => 1,
+        ]);
 
-        $campaign = $campaignFactory->createCampaign($testData);
+        $voucher = $repo->loadVoucher('voucher001');
 
-        $voucherFactory = $this->getVoucherFactory();
+        $campaign_expiry_limit = $voucher->campaign->expiry_limit;
+        $expected_date = date('Y-m-d H:i:s', strtotime($voucher->created_at.' + '.$campaign_expiry_limit.' days'));
 
-        $voucher = $voucherFactory->createVoucher($testData['urn']);
+        $expiryDate = $voucher->getExpiryDate();
 
-        $this->assertInstanceOf('Fastwebmedia\LaravelVouchering\Models\Voucher', $voucher);
-        $this->assertEquals($campaign->id, $voucher->campaign_id);
+        $this->assertEquals($expected_date, $expiryDate);
     }
 
     /** @test **/
-    public function itPreventsVoucherCreationForInvalidCampaign()
+    public function itCanGetCustomCampaignExpiryDate()
     {
-        $voucherFactory = $this->getVoucherFactory();
+        $repo = $this->getVoucherRepository();
 
-        $voucher = $voucherFactory->createVoucher('fakecampaign101');
+        Voucher::create([
+            'hash' => 'voucher002',
+            'campaign_id' => 1,
+        ]);
 
-        $this->assertFalse($voucher);
+        $voucher = $repo->loadVoucher('voucher002');
+
+        $expected_date = date('Y-m-d H:i:s', strtotime($voucher->created_at.' + 5 days'));
+
+        $expiryDate = $voucher->getExpiryDate('5');
+
+        $this->assertEquals($expected_date, $expiryDate);
     }
 }

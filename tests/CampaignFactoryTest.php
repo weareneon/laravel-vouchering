@@ -21,6 +21,7 @@ class CampaignFactoryTest extends BaseVoucherTest
             $table->string('name');
             $table->string('brand');
             $table->string('urn')->unique();
+            $table->integer('expiry_limit')->default('14');
             $table->boolean('is_active')->default('1');
         });
 
@@ -43,29 +44,80 @@ class CampaignFactoryTest extends BaseVoucherTest
         $campaign = $factory->createCampaign($data);
 
         $this->assertInstanceOf('Fastwebmedia\LaravelVouchering\Models\Campaign', $campaign);
+        $this->assertEquals('11002', $campaign->urn);
     }
 
     /** @test **/
-    public function itPreventsInvalidCampaign()
+    public function itPreventsBlankCampaignUrn()
     {
         $factory = $this->getCampaignFactory();
-
-        Campaign::create([
-            'name' => 'Test Campaign',
-            'brand' => 'Test Brand',
-            'urn' => '11003',
-            'is_active' => 1
-        ]);
 
         $data = [
             'name' => 'Test Campaign',
             'brand' => 'Test Brand',
-            'urn' => '11003',
+            'urn' => '',
             'is_active' => 1
         ];
 
         $campaign = $factory->createCampaign($data);
 
         $this->assertFalse($campaign);
+    }
+
+    /** @test **/
+    public function itPreventsDuplicateCampaign()
+    {
+        $factory = $this->getCampaignFactory();
+
+        Campaign::create([
+            'name' => 'Test Campaign',
+            'brand' => 'Test Brand',
+            'urn' => 'duplicate11003',
+            'is_active' => 1
+        ]);
+
+        $data = [
+            'name' => 'Test Campaign',
+            'brand' => 'Test Brand',
+            'urn' => 'duplicate11003',
+            'is_active' => 1
+        ];
+
+        $campaign = $factory->createCampaign($data);
+
+        $this->assertFalse($campaign);
+    }
+
+    /** @test **/
+    public function itCanDestroyCampaign()
+    {
+        $factory = $this->getCampaignFactory();
+        $repo = $this->getCampaignRepository();
+
+        Campaign::create([
+            'name' => 'Test Campaign',
+            'brand' => 'Test Brand',
+            'urn' => 'destroy001',
+            'is_active' => 1
+        ]);
+
+        $campaign = $factory->destroyCampaign('destroy001');
+
+        $this->assertInstanceOf('Fastwebmedia\LaravelVouchering\Models\Campaign', $campaign);
+        $this->assertEquals('destroy001', $campaign->urn);
+
+        $campaign = $repo->loadCampaign('destroy001');
+
+        $this->assertFalse($campaign);
+    }
+
+
+
+    /** @test **/
+    public function itCanCreateCampaignFactoryInstance()
+    {
+        $factory = $this->getCampaignFactory();
+
+        $this->assertInstanceOf('Fastwebmedia\LaravelVouchering\Factories\CampaignFactory', $factory);
     }
 }

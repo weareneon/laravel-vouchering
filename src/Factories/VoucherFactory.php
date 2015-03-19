@@ -2,6 +2,7 @@
 
 use \Fastwebmedia\LaravelVouchering\Models\Voucher;
 use \Fastwebmedia\LaravelVouchering\Repositories\CampaignRepository;
+USE Rhumsaa\Uuid\Uuid;
 
 class VoucherFactory
 {
@@ -40,11 +41,11 @@ class VoucherFactory
     public function createVoucher($campaignUrn)
     {
         // Check for valid campaign
-        if ($campaign = $this->campaignRepo->getCampaign($campaignUrn)) {
+        if ($campaign = $this->campaignRepo->loadCampaign($campaignUrn)) {
 
             $voucher = $this->model->create([
                 'campaign_id' => $campaign->id,
-                'hash' => $this->model->generateHash(),
+                'hash' => Uuid::uuid1()->toString()
             ]);
 
             return $voucher;

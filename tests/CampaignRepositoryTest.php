@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Capsule\Manager as DB;
 use Fastwebmedia\LaravelVouchering\Models\Campaign;
-use Fastwebmedia\LaravelVouchering\Repositories\CampaignRepository;
 
-class CampaignRepositoryTest extends AbstractFWMTestCase
+class CampaignRepositoryTest extends BaseVoucherTest
 {
     public static function setupBeforeClass()
     {
@@ -22,6 +21,7 @@ class CampaignRepositoryTest extends AbstractFWMTestCase
             $table->string('name');
             $table->string('brand');
             $table->string('urn')->unique();
+            $table->integer('expiry_limit')->default('14');
             $table->boolean('is_active')->default('1');
         });
 
@@ -41,16 +41,9 @@ class CampaignRepositoryTest extends AbstractFWMTestCase
             'is_active' => 1
         ]);
 
-        $campaign = $repo->getCampaign('11002');
+        $campaign = $repo->loadCampaign('11002');
 
+        $this->assertInstanceOf('Fastwebmedia\LaravelVouchering\Models\Campaign', $campaign);
         $this->assertEquals('11002', $campaign->urn);
-    }
-
-    /**
-     * @return ContentRepository
-     */
-    protected function getCampaignRepository()
-    {
-        return new CampaignRepository(new Campaign);
     }
 }

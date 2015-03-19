@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Capsule\Manager as DB;
+use Fastwebmedia\LaravelVouchering\Models\Voucher;
 
-class VoucherFactoryTest extends BaseVoucherTest
+class VoucherRepositoryTest extends BaseVoucherTest
 {
     public static function setupBeforeClass()
     {
@@ -37,38 +38,68 @@ class VoucherFactoryTest extends BaseVoucherTest
 
         parent::setupBeforeClass();
         static::$fm->seed(5, 'Fastwebmedia\LaravelVouchering\Models\Campaign');
-        static::$fm->seed(5, 'Fastwebmedia\LaravelVouchering\Models\Voucher');
     }
 
     /** @test **/
-        public function itCanCreateVoucher()
+    public function itCanLoadVoucher()
     {
-        $campaignFactory = $this->getCampaignFactory();
+        $repo = $this->getVoucherRepository();
 
-        $testData = [
-            'name' => 'Test Campaign',
-            'brand' => 'Test Brand',
-            'urn' => '11002',
-            'is_active' => 1
-        ];
+        Voucher::create([
+            'hash' => 'test001',
+            'campaign_id' => 1
+        ]);
 
-        $campaign = $campaignFactory->createCampaign($testData);
-
-        $voucherFactory = $this->getVoucherFactory();
-
-        $voucher = $voucherFactory->createVoucher($testData['urn']);
+        $voucher = $repo->loadVoucher('test001');
 
         $this->assertInstanceOf('Fastwebmedia\LaravelVouchering\Models\Voucher', $voucher);
-        $this->assertEquals($campaign->id, $voucher->campaign_id);
+        $this->assertEquals('test001', $voucher->hash);
     }
 
     /** @test **/
-    public function itPreventsVoucherCreationForInvalidCampaign()
+    public function itPreventsInvalidVoucherLoad()
     {
-        $voucherFactory = $this->getVoucherFactory();
+        $repo = $this->getVoucherRepository();
 
-        $voucher = $voucherFactory->createVoucher('fakecampaign101');
+        Voucher::create([
+            'hash' => 'test002',
+            'campaign_id' => 1
+        ]);
+
+        $voucher = $repo->loadVoucher('invalid001');
 
         $this->assertFalse($voucher);
+    }
+
+    /** @test **/
+    public function itCanExpireVoucher()
+    {
+        $repo = $this->getVoucherRepository();
+
+        Voucher::create([
+            'hash' => 'expire001',
+            'campaign_id' => 1
+        ]);
+
+        $voucher = $repo->expireVoucher('expire001');
+
+        $this->assertInstanceOf('Fastwebmedia\LaravelVouchering\Models\Voucher', $voucher);
+        $this->assertEquals('1', $voucher->is_expired);
+    }
+
+    /** @test **/
+    public function itCanRedeemVoucher()
+    {
+        $repo = $this->getVoucherRepository();
+
+        Voucher::create([
+            'hash' => 'redeem001',
+            'campaign_id' => 1
+        ]);
+
+        $voucher = $repo->redeemVoucher('redeem001');
+
+        $this->assertInstanceOf('Fastwebmedia\LaravelVouchering\Models\Voucher', $voucher);
+        $this->assertEquals('1', $voucher->is_redeemed);
     }
 }

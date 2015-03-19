@@ -6,6 +6,7 @@ $fm->define('Fastwebmedia\LaravelVouchering\Models\Campaign')->setDefinitions([
     'name' => Faker::name(),
     'brand' => Faker::name(),
     'urn' => Faker::ean8(),
+    'expiry_limit' => '14',
     'is_active' => 1
 ]);
 

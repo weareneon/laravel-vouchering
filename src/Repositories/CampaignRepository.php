@@ -20,7 +20,7 @@ class CampaignRepository
     }
 
     /**
-     * getCampaign function.
+     * loadCampaign function.
      *
      * @access public
      *
@@ -28,8 +28,14 @@ class CampaignRepository
      *
      * @return Campaign
      */
-    public function getCampaign($urn)
+    public function loadCampaign($urn)
     {
-        return $this->model->where('urn', '=', $urn)->first();
+        $campaign = $this->model->where('urn', '=', $urn)->first();
+
+        if ( $campaign ){
+            return $campaign;
+        }
+
+        return false;
     }
 }

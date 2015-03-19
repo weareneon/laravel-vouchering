@@ -46,8 +46,8 @@ class LaravelVouchering {
     }
 
     // checks voucher expiry status
-    public function checkExpiry($date, $days){
-        return $this->repository->checkExpiry($date, $days);
+    public function checkVoucherExpiry($date, $days){
+        return $this->repository->checkVoucherExpiry($date, $days);
     }
 
 }

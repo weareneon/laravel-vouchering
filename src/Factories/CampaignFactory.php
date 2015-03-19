@@ -19,7 +19,6 @@ class CampaignFactory
      * Constructs models.
      *
      * @param Campaign $model
-     *
      * @param CampaignRepository @campaignRepository
      */
     public function __construct(Campaign $model, CampaignRepository $campaignRepository)
@@ -39,11 +38,33 @@ class CampaignFactory
      */
     public function createCampaign($data)
     {
+        $urn = $data['urn'];
+
         // Check campaign already exists
-        if (! $this->repo->getCampaign($data['urn'])) {
+        if (! $this->repo->loadCampaign($urn) && $urn != '') {
             $campaign = $this->model->create($data);
 
             return $campaign;
+        }
+
+        return false;
+    }
+
+    /**
+     * destroyCampaign function.
+     *
+     * @access public
+     *
+     * @param string $urn
+     *
+     * @return Campaign
+     */
+    public function destroyCampaign($urn)
+    {
+        if ($campaign = $this->model->where('urn', '=', $urn)->first()) {
+            if ($campaign->delete()) {
+                return $campaign;
+            }
         }
 
         return false;

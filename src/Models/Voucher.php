@@ -15,49 +15,24 @@ class Voucher extends Model
 
     public function campaign()
     {
-        return $this->hasOne('Vouchers\Campaign', 'id', 'campaign_id');
+        return $this->hasOne('Fastwebmedia\LaravelVouchering\Models\Campaign', 'id', 'campaign_id');
     }
 
     /**
-     * generateHash function.
-     *
-     * @access public
-     *
-     * @return string $hash
-     */
-    public function generateHash()
-    {
-        $uniqueCode = false;
-
-        do {
-            $hash = md5(uniqid(rand(), true));
-
-            //check if hash exists
-            if (! $this::where('hash', '=', $hash)->first()):
-                $uniqueCode = true;
-            endif;
-        } while ($uniqueCode == false);
-
-        return $hash;
-    }
-
-    /**
-     * checkExpiry function.
+     * getExpiryDate function.
      *
      * @access public
      *
      * @param int $days
      *
-     * @return boolean
+     * @return date
      */
-    protected function checkExpiry($days = 14)
+    public function getExpiryDate($days = false)
     {
-        $expiryDate = date('Y-m-d H:i:s', strtotime( $this->created_at . ' + ' .$days. ' days'));
+        if (! $days) {
+            $days = $this->campaign->expiry_limit;
+        }
 
-        if (date('Y-m-d H:i:s') > $expiryDate):
-            return true;
-        endif;
-
-        return false;
+        return $expiryDate = date('Y-m-d H:i:s', strtotime($this->created_at.' + '.$days.' days'));
     }
 }
