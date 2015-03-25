@@ -88,6 +88,16 @@ class VoucherRepositoryTest extends BaseVoucherTest
     }
 
     /** @test **/
+    public function itPreventsExpireInvalidVoucher()
+    {
+        $repo = $this->getVoucherRepository();
+
+        $voucher = $repo->expireVoucher('invalid001');
+
+        $this->assertFalse($voucher);
+    }
+
+    /** @test **/
     public function itCanRedeemVoucher()
     {
         $repo = $this->getVoucherRepository();
