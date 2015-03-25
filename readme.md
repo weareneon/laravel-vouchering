@@ -4,7 +4,7 @@
 
 A simple voucher package to allow for the generation of unique vouchers across multiple campaigns, packaged up with create, load, redeem, expire, and delete methods.
 
-## <a name="l5 install"></a> Installation (Laravel 5)
+## <a name="l5install"></a> Installation (Laravel 5)
 
 Here are the steps you need to take to install the package on Laravel 5. [Click here for Laravel 4](#l4install).
 
