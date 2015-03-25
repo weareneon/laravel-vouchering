@@ -6,6 +6,8 @@ A simple voucher package to allow for the generation of unique vouchers across m
 
 ## Installation (Laravel 5)
 
+Here are the steps you need to take to install the package on Laravel 5. [Click here for Laravel 4](#l4install).
+
 Add the package (v2.*) to your composer.json require.
 
 
@@ -34,7 +36,17 @@ php artisan migrate
 
 All done! You are now ready to set up your first voucher campaign!
 
-## Installation (Laravel 4)
+## Setting up a new Campaign
+
+Setting up a new voucher campaign is made easy using the package's campaign:create artisan command. Simply run in the terminal and follow the prompts.
+
+```
+php artisan campaign:create
+```
+
+Check your database, you should now have a new campaign.
+
+## <a name="l4install"></a> Installation (Laravel 4)
 
 Add the package (v1.*) to your composer.json require. 
 
@@ -61,16 +73,6 @@ php artisan migrate --package="fastwebmedia/laravel-vouchering"
 ```
 
 All done! You are now ready to set up your first voucher campaign!
-
-## Setting up a new Campaign
-
-Setting up a new voucher campaign is made easy using the package's campaign:create artisan command. Simply run in the terminal and follow the prompts.
-
-```
-php artisan campaign:create
-```
-
-Check your database, you should now have a new campaign.
 
 ## Coming Soon...
 
