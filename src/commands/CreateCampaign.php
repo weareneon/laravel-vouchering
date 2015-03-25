@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Command;
 use \Fastwebmedia\LaravelVouchering\Factories\CampaignFactory;
+use Illuminate\Support\Str;
 
 class CampaignCreate extends Command
 {

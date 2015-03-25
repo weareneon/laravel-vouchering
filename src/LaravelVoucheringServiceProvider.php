@@ -21,7 +21,17 @@ class LaravelVoucheringServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //boot code goes here
+        $this->migrate();
+    }
+
+    /**
+     * Copy up package migrations.
+     */
+    public function migrate()
+    {
+        $this->publishes([
+            realpath(__DIR__.'/migrations/') => base_path('/database/migrations'),
+        ], 'migrations');
     }
 
     /**
