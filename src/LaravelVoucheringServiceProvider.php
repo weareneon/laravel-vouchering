@@ -17,11 +17,11 @@ class LaravelVoucheringServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
-     * Bootstrap the application events.
+     * Boot the service provider.
      */
     public function boot()
     {
-        $this->package('fastwebmedia/laravel-vouchering');
+        //boot code goes here
     }
 
     /**
