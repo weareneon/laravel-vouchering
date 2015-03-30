@@ -72,11 +72,15 @@ class CampaignCreate extends Command
                 }
             }
         }
+        if ( ! $expiry_limit = $this->argument('expiry_limit') ){
+            $expiry_limit = $this->ask('Please enter the voucher expiry for the campaign (days):');
+        }
 
         $data = [
             'name' => $name,
             'brand' => $brand,
             'urn' => $urn,
+            'expiry_limit' => $expiry_limit
         ];
 
         if (! $this->campaign->createCampaign($data)) {
@@ -96,9 +100,10 @@ class CampaignCreate extends Command
     protected function getArguments()
     {
         return [
-            [ 'name', InputArgument::OPTIONAL, 'Name of campaign'],
-            [ 'brand', InputArgument::OPTIONAL, 'Brand'],
-            [ 'urn', InputArgument::OPTIONAL, 'URN']
+            ['name', InputArgument::OPTIONAL, 'Name of campaign'],
+            ['brand', InputArgument::OPTIONAL, 'Brand'],
+            ['urn', InputArgument::OPTIONAL, 'URN'],
+            ['expiry_limit', InputArgument::OPTIONAL, 'Voucher expiry limit']
         ];
     }
 

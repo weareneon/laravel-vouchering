@@ -9,9 +9,8 @@ class Campaign extends Model
         'name',
         'brand',
         'urn',
-        'starts_at',
-        'ends_at',
-        'is_active',
+        'expiry_limit',
+        'is_active'
     ];
 
     public function vouchers()
