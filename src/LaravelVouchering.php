@@ -37,7 +37,7 @@ class LaravelVouchering {
 
     // expires voucher by hash
     public function expireVoucher($hash){
-        return $this->repository->expireVocuher($hash);
+        return $this->repository->expireVoucher($hash);
     }
 
     // redeems voucher by hash
