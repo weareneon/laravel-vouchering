@@ -1,6 +1,6 @@
 <?php namespace Fastwebmedia\LaravelVouchering\Factories;
 
-use Fastwebmedia\LaravelVouchering\models\Campaign;
+use Fastwebmedia\LaravelVouchering\Models\Campaign;
 use Fastwebmedia\LaravelVouchering\Repositories\CampaignRepository;
 
 class CampaignFactory
