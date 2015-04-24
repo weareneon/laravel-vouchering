@@ -89,7 +89,7 @@ class CampaignCreate extends Command
             return;
         }
 
-        $this->comment("Voucher Campaign successfully created. Campaign URN is '{$urn}'.");
+        $this->info("Voucher Campaign successfully created. Campaign URN is '{$urn}'.");
     }
 
     /**
